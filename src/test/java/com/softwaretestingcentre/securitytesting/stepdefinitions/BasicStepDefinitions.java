@@ -7,14 +7,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actions.Click;
-import net.serenitybdd.screenplay.actions.Open;
 import net.serenitybdd.screenplay.ensure.Ensure;
 
 public class BasicStepDefinitions {
     @Given("{actor} goes to the Juice Shop")
     public void goesToTheJuiceShop(Actor actor) {
-        actor.wasAbleTo(Open.browserOn().the(HomePage.class));
-        actor.wasAbleTo(JuiceShop.dismissDialogs());
+        actor.wasAbleTo(JuiceShop.openShop());
     }
 
     @When("{actor} selects {string}")
