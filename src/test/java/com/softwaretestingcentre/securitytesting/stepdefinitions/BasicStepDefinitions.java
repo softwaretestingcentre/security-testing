@@ -24,4 +24,9 @@ public class BasicStepDefinitions {
     public void sheCanSeeTheDetails(Actor actor, String juiceName) {
         Ensure.that(HomePage.JUICE_DETAILS.of(juiceName).isVisibleFor(actor));
     }
+
+    @Then("{actor} can see the {string} strapline")
+    public void sheCanSeeTheStrapline(Actor actor, String juiceStrapline) {
+        Ensure.that(HomePage.JUICE_STRAPLINE.of(juiceStrapline).isVisibleFor(actor));
+    }
 }
