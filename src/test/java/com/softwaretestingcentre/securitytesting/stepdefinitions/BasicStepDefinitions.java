@@ -29,4 +29,20 @@ public class BasicStepDefinitions {
     public void sheCanSeeTheStrapline(Actor actor, String juiceStrapline) {
         Ensure.that(HomePage.JUICE_STRAPLINE.of(juiceStrapline).isVisibleFor(actor));
     }
+
+
+    @When("{actor} injects HTML into the search input")
+    public void sheInjectsHTMLIntoTheSearchInput(Actor actor) {
+        actor.wasAbleTo(JuiceShop.searchFor("<iframe id='injection' src='javascript:alert(\"xss\")'>"));
+    }
+
+    @Then("{actor} sees an alert message containing {string}")
+    public void sheSeesAnAlertMessage(Actor actor, String alertMessage) {
+        actor.attemptsTo(JuiceShop.alertIsEqualTo(alertMessage));
+    }
+
+    @When("{actor} opens the score board")
+    public void sheOpensTheScoreBoard(Actor actor) {
+        actor.attemptsTo(JuiceShop.openScoreBoard());
+    }
 }

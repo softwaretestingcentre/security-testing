@@ -23,4 +23,10 @@ public class HomePage extends PageObject {
     public static Target JUICE_STRAPLINE = Target.the("Strapline is {0}")
             .locatedBy("//app-product-details//div[contains(., '{0}')]");
 
+    public static Target SEARCH_BUTTON = Target.the("Search button")
+            .locatedBy("#searchQuery");
+
+    public static Target SEARCH_INPUT = Target.the("Search input")
+            .locatedBy("app-mat-search-bar input");
+
 }
