@@ -31,9 +31,9 @@ public class BasicStepDefinitions {
     }
 
 
-    @When("{actor} injects HTML into the search input")
-    public void sheInjectsHTMLIntoTheSearchInput(Actor actor) {
-        actor.wasAbleTo(JuiceShop.searchFor("<iframe id='injection' src='javascript:alert(\"xss\")'>"));
+    @When("{actor} searches for {string}")
+    public void sheSearchesFor(Actor actor, String searchTerm) {
+        actor.wasAbleTo(JuiceShop.searchFor(searchTerm));
     }
 
     @Then("{actor} sees an alert message containing {string}")

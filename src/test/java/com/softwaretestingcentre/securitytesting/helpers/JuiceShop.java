@@ -7,23 +7,25 @@ import net.serenitybdd.screenplay.actions.*;
 import net.serenitybdd.screenplay.ensure.Ensure;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 import net.serenitybdd.screenplay.waits.WaitUntil;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isClickable;
+import java.time.Duration;
+
+import static net.serenitybdd.core.Serenity.getDriver;
+
 
 public class JuiceShop {
     public static Performable openShop() {
         return Task.where("{0} opens the shop",
-                Open.browserOn().the(HomePage.class),
-                Click.on(HomePage.ACCEPT_COOKIES),
-                WaitUntil.the(HomePage.DISMISS_WELCOME_MESSAGE, isClickable()),
-                Click.on(HomePage.DISMISS_WELCOME_MESSAGE)
+                Open.browserOn().the(HomePage.class)
         );
     }
 
     public static Performable searchFor(String searchTerm) {
         return Task.where("{0} searches for " + searchTerm,
-                Open.browserOn().the(HomePage.class),
                 Click.on(HomePage.SEARCH_BUTTON),
                 Enter.theValue(searchTerm).into(HomePage.SEARCH_INPUT),
                 SendKeys.of(Keys.ENTER).into(HomePage.SEARCH_INPUT)
@@ -31,6 +33,8 @@ public class JuiceShop {
     }
 
     public static Question<String> getAlertText() {
+        Alert alert = new WebDriverWait(getDriver(), Duration.ofSeconds(5))
+                .until(ExpectedConditions.alertIsPresent());
         return Question.about("Alert text").answeredBy(
                 actor -> {
                     actor.attemptsTo(Switch.toAlert());
@@ -48,12 +52,12 @@ public class JuiceShop {
 
     public static Performable openScoreBoard() {
         return Task.where("{0} opens their Score Board",
-                Open.browserOn().the(ScoreBoardPage.class),
-                WaitUntil.the(ScoreBoardPage.SPINNER, WebElementStateMatchers.isNotVisible())
+                Open.browserOn().the(ScoreBoardPage.class)
         );
     }
 
     public static Performable challengeIsSolved(String solvedChallenge) {
+        WaitUntil.the(ScoreBoardPage.CHALLENGE_CARD, WebElementStateMatchers.isVisible());
         return Ensure.that(ScoreBoardPage.SOLVED_CHALLENGE.of(solvedChallenge)).isDisplayed();
     }
 }
