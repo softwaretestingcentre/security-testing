@@ -40,3 +40,11 @@ jobs:
       with:
           name: Serenity Report                 # Name of the folder
           path: target/site/serenity/           # Path to test results
+
+    - name: GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.7.3
+      if: github.ref == 'refs/heads/main'
+      with:
+        branch: gh-pages
+        folder: target/site/serenity
+        clean: true
