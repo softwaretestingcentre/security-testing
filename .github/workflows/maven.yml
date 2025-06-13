@@ -48,3 +48,10 @@ jobs:
         branch: gh-pages
         folder: target/site/serenity
         clean: true
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: (!cancelled())
+      with:
+        files: |
+          target/failsafe-reports/*.xml
