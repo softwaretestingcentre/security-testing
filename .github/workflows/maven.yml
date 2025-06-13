@@ -54,4 +54,4 @@ jobs:
       if: (!cancelled())
       with:
         files: |
-          target/failsafe-reports/*.xml
+          target/failsafe-reports/*CucumberTestSuite.xml
