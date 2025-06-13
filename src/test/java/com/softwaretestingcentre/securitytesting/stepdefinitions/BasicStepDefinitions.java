@@ -45,4 +45,9 @@ public class BasicStepDefinitions {
     public void sheOpensTheScoreBoard(Actor actor) {
         actor.attemptsTo(JuiceShop.openScoreBoard());
     }
+
+    @When("{actor} opens the Privacy Policy")
+    public void sheOpensThePrivacyPolicy(Actor actor) {
+        actor.attemptsTo(JuiceShop.openPrivacyPolicy());
+    }
 }

@@ -56,6 +56,12 @@ public class JuiceShop {
         );
     }
 
+    public static Performable openPrivacyPolicy() {
+        return Task.where("{0} opens the Privacy Policy",
+                Open.browserOn().the(PrivacyPolicyPage.class)
+        );
+    }
+
     public static Performable challengeIsSolved(String solvedChallenge) {
         WaitUntil.the(ScoreBoardPage.CHALLENGE_CARD, WebElementStateMatchers.isVisible());
         return Ensure.that(ScoreBoardPage.SOLVED_CHALLENGE.of(solvedChallenge)).isDisplayed();
