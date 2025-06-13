@@ -1,18 +1,21 @@
 package com.softwaretestingcentre.securitytesting.helpers;
 
+import io.restassured.http.ContentType;
 import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.Question;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.actions.*;
 import net.serenitybdd.screenplay.ensure.Ensure;
-import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
-import net.serenitybdd.screenplay.waits.WaitUntil;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static io.restassured.RestAssured.*;
+
+
 import java.time.Duration;
+import java.util.List;
 
 import static net.serenitybdd.core.Serenity.getDriver;
 
@@ -63,7 +66,14 @@ public class JuiceShop {
     }
 
     public static Performable challengeIsSolved(String solvedChallenge) {
-        WaitUntil.the(ScoreBoardPage.CHALLENGE_CARD, WebElementStateMatchers.isVisible());
-        return Ensure.that(ScoreBoardPage.SOLVED_CHALLENGE.of(solvedChallenge)).isDisplayed();
+        return Ensure.that(getChallengeStatus(solvedChallenge)).isTrue();
+    }
+
+    public static boolean getChallengeStatus(String challengeName) {
+        List<Boolean> solved = when().get("https://stc-owasp-juice-dnebatcgf2ddf4cr.uksouth-01.azurewebsites.net/api/Challenges/?name=" + challengeName)
+                .then().contentType(ContentType.JSON)
+                .extract()
+                .path("data.solved");
+        return solved.get(0);
     }
 }
