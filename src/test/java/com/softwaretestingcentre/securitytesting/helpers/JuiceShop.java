@@ -11,14 +11,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static io.restassured.RestAssured.*;
-
-
 import java.time.Duration;
 import java.util.List;
 
+import static io.restassured.RestAssured.given;
 import static net.serenitybdd.core.Serenity.getDriver;
-
 
 public class JuiceShop {
     public static Performable openShop() {
@@ -65,15 +62,18 @@ public class JuiceShop {
         );
     }
 
-    public static Performable challengeIsSolved(String solvedChallenge) {
-        return Ensure.that(getChallengeStatus(solvedChallenge)).isTrue();
-    }
-
-    public static boolean getChallengeStatus(String challengeName) {
-        List<Boolean> solved = when().get("https://stc-owasp-juice-dnebatcgf2ddf4cr.uksouth-01.azurewebsites.net/api/Challenges/?name=" + challengeName)
-                .then().contentType(ContentType.JSON)
-                .extract()
-                .path("data.solved");
+    public static boolean isChallengeSolved(String challengeName) {
+        String BASE_URL = System.getProperty("restapi.baseurl"); //for maven
+        if (BASE_URL == null) {
+            BASE_URL = System.getenv("restapi.baseurl"); //for Cucumber runner
+        }
+        List<Boolean> solved =
+                given().baseUri(BASE_URL)
+                        .when().get("/Challenges/?name=" + challengeName)
+                        .then().contentType(ContentType.JSON)
+                        .extract()
+                        .path("data.solved");
         return solved.get(0);
     }
+
 }

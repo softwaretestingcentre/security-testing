@@ -18,10 +18,4 @@ public class ScoreBoardPage extends PageObject {
     public static Target SPINNER = Target.the("Spinner")
             .locatedBy(".loading-spinner-wrapper");
 
-    public static Target CHALLENGE_CARD = Target.the("Challenge Card")
-            .locatedBy("challenge-card");
-
-    public static Target SOLVED_CHALLENGE = Target.the("Solved Challenge")
-            .locatedBy("//challenge-card[contains(concat(' ', normalize-space(@class), ' '), ' solved ')]//*[text()='{0}']");
-
 }
